@@ -34,6 +34,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data(){
     return {
@@ -44,8 +46,22 @@ export default {
 
   methods:{
     loginUser(){
-         if(this.email !== "" && this.name !==""){
-        this.$router.push('/signup')
+        const form = {
+
+        email:this.email,
+        password:this.password
+
+      };
+
+      if(this.email !== "" && this.password !== ""){
+
+        axios.post("http://localhost:8000/api/login",form).then((res)=>{
+          console.log(res)
+          this.$router.push('/success');
+        }).catch(()=>{
+            console.log("There is an error during login")
+       });
+
       }else{
         window.alert("all fields required");
       }
